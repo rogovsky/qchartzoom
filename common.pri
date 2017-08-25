@@ -8,3 +8,5 @@ TEMPLATE -= fakelib
 unix : uselib-qchartzoom : !buildlib-qchartzoom : QMAKE_RPATHDIR += $$QCHARTZOOM_LIBDIR
 
 #CONFIG *= c++11 c++14
+
+# ==============================================================================
