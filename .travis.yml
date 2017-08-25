@@ -51,8 +51,11 @@ install:
 
 before_script:
   - pushd 3rdparty
-  - git clone https://github.com/osakared/qwt.git -b tags/qwt-6.1.3
+  #- git clone https://github.com/osakared/qwt.git -b tags/qwt-6.1.3
   - popd
+
+  - ls -la /usr/include/qwt*
+  - ls -la /usr/lib/libqw*
 
 script:
   - ./configure -library
@@ -65,4 +68,4 @@ script:
   - make distclean
 
 after_failure:
-
+  - echo "Fail..."
