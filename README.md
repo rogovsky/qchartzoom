@@ -6,6 +6,10 @@ This is the project for the QChartZoom library.
 
 * http://qtlinux.narod.ru/qwtchartzoom.htm (in Russian)
 
+## Build Status
+
+- Travis: [![Travis Build Status](https://travis-ci.org/rogovsky/qchartzoom.svg?branch=master)](https://travis-ci.org/rogovsky/qchartzoom)
+
 ## Licensing library
 
 The primary author is Sergey Melnikov.
