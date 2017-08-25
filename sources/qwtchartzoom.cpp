@@ -317,9 +317,11 @@ QList<int> *QwtChartZoom::getLabelWidths(int xAx)
     QFont fnt = qwtp->axisFont(xAx);
 
     // получаем список основных меток горизонтальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = qwtp->axisScaleDiv(xAx)->ticks(QwtScaleDiv::MajorTick);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = qwtp->axisScaleDiv(xAx).ticks(QwtScaleDiv::MajorTick);
+#else                          // qwt-6.0.x
     QList<double> vl = qwtp->axisScaleDiv(xAx)->ticks(QwtScaleDiv::MajorTick);
 #endif
 
@@ -429,12 +431,16 @@ bool QwtChartZoom::updateVerAxis(int yAx,int *vDiv)
     // получаем шрифт, использующийся на вертикальной шкале
     QFont fnt = qwtp->axisFont(yAx);
     // узнаем значение верхней границы вертикальной шкалы
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     double mxl = qwtp->axisScaleDiv(yAx)->upperBound();
+#else                        // qwt-6.1.x
+    double mxl = qwtp->axisScaleDiv(yAx).upperBound();
+#endif
 
     // определяем размер надписи, соответствующей этому значению при заданном шрифте
-#if QWT_VERSION < 0x060000
+#if QWT_VERSION < 0x060000   // qwt-5.2.x
     QSize szlb = qwtp->axisScaleDraw(yAx)->labelSize(fnt,mxl);
-#else
+#else                        // qwt-6.x.x
     QSizeF szlb = qwtp->axisScaleDraw(yAx)->labelSize(fnt,mxl);
 #endif
 
@@ -709,7 +715,11 @@ void QMainZoomSvc::startZoom(QMouseEvent *mEvent)
     {
         // получаем указатели на
         QwtPlot *plt = zoom->plot();        // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
         QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+        QWidget *cv  = plt->canvas();       // и канву
+#endif
         // получаем геометрию канвы графика
         QRect cg = cv->geometry();
         // определяем текущее положение курсора (относительно канвы графика)
@@ -798,7 +808,11 @@ void QMainZoomSvc::procZoom(QMouseEvent *mEvent)
         {
             // получаем указатели на
             QwtPlot *plt = zoom->plot();        // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
             QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+            QWidget *cv  = plt->canvas();       // и канву
+#endif
             // восстанавливаем курсор
             cv->setCursor(tCursor);
             // удаляем виджет, отображающий выделенную область
@@ -912,9 +926,11 @@ QRegion QDragZoomSvc::addHorTicks(QRegion rw,QwtScaleDiv::TickType tt)
     // получаем указатель на график
     QwtPlot *plt = zoom->plot();
     // получаем список основных меток горизонтальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = plt->axisScaleDiv(zoom->masterH())->ticks(tt);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = plt->axisScaleDiv(zoom->masterH()).ticks(tt);
+#else                          // qwt-6.0.x
     QList<double> vl = plt->axisScaleDiv(zoom->masterH())->ticks(tt);
 #endif
 
@@ -938,9 +954,11 @@ QRegion QDragZoomSvc::addVerTicks(QRegion rw,QwtScaleDiv::TickType tt)
     // получаем указатель на график
     QwtPlot *plt = zoom->plot();
     // получаем список основных меток вертикальной шкалы
-#if QWT_VERSION < 0x060000
+#if   QWT_VERSION < 0x060000   // qwt-5.2.x
     QwtValueList vl = plt->axisScaleDiv(zoom->masterV())->ticks(tt);
-#else
+#elif QWT_VERSION > 0x060099   // qwt-6.1.x
+    QList<double> vl = plt->axisScaleDiv(zoom->masterV()).ticks(tt);
+#else                          // qwt-6.0.x
     QList<double> vl = plt->axisScaleDiv(zoom->masterV())->ticks(tt);
 #endif
 
@@ -1055,7 +1073,11 @@ void QDragZoomSvc::startDrag(QMouseEvent *mEvent)
     {
         // получаем указатели на
         QwtPlot *plt = zoom->plot();        // график
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
         QwtPlotCanvas *cv = plt->canvas();  // и канву
+#else                        // qwt-6.1.x
+        QWidget *cv  = plt->canvas();       // и канву
+#endif
         // получаем геометрию канвы графика
         QRect cg = cv->geometry();
         // определяем текущее положение курсора (относительно канвы графика)

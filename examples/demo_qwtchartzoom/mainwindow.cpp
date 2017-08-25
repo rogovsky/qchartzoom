@@ -13,7 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // создаем легенду
     leg = new QwtLegend();
     // запрещаем ее редактировать
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     leg->setItemMode(QwtLegend::ReadOnlyItem);
+#else                        // qwt-6.1.x
+    leg->setDefaultItemMode(QwtLegendData::ReadOnly);
+#endif
     //  добавляем легенду в верхнюю часть графика
     ui->myPlot->insertLegend(leg,QwtPlot::TopLegend);
 
@@ -22,8 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // разрешаем отображение линий сетки, соответствующих вспомогательным делениям нижней шкалы
     grid->enableXMin(true);
     // назначаем цвета для линий сетки:
+#if QWT_VERSION < 0x060099   // qwt-5.2.x + qwt-6.0.x
     grid->setMajPen(QPen(Qt::black,0,Qt::DotLine)); // черный для основных делений
     grid->setMinPen(QPen(Qt::gray,0,Qt::DotLine));  // серый для вспомогательных
+#else                        // qwt-6.1.x
+    grid->setMajorPen(QPen(Qt::black,0,Qt::DotLine)); // черный для основных делений
+    grid->setMinorPen(QPen(Qt::gray,0,Qt::DotLine));  // серый для вспомогательных
+#endif
                                                     // линии сетки будут изображаться пунктирной линией
     // связываем созданную сетку с графиком
     grid->attach(ui->myPlot);
