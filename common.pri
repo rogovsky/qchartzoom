@@ -2,7 +2,7 @@ exists(config.pri) : infile(config.pri, BUILD_LIBRARY, yes) : CONFIG += uselib-q
 
 TEMPLATE += fakelib
     QCHARTZOOM_LIBNAME = qchartzoom
-    QCHARTZOOM_LIBDIR  = ../lib
+    QCHARTZOOM_LIBDIR  = $${PWD}/lib
 TEMPLATE -= fakelib
 
 unix : uselib-qchartzoom : !buildlib-qchartzoom : QMAKE_RPATHDIR += $$QCHARTZOOM_LIBDIR

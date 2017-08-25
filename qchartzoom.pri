@@ -26,7 +26,7 @@ PRIVATE_SOURCES += \
 
 # ==============================================================================
 
-uselib : !buildlib {
+uselib-qchartzoom : !buildlib-qchartzoom {
     LIBS += -L$$QCHARTZOOM_LIBDIR -l$$QCHARTZOOM_LIBNAME
 } else {
 
