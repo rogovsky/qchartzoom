@@ -16,6 +16,8 @@
 
 #include <qwt_scale_widget.h>
 
+#include <math.h>
+
 // Конструктор
 QwtChartZoom::QwtChartZoom(QwtPlot *qp) :
     QObject(qp)
